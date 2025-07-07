@@ -1,10 +1,17 @@
 import ChatInput from "./ChatInput";
+import Conversation from "./Conversation";
+import { Message } from "@/app/page";
 
-export default function ChatArea() {
+type ChatAreaProps = {
+  messages: Message[];
+  onSendMessage: (input: string) => void;
+};
+
+export default function ChatArea({ messages, onSendMessage }: ChatAreaProps) {
   return (
     <div className="flex-1 flex flex-col">
-      <div className="flex-1 p-4">Chat Area</div>
-      <ChatInput />
+      <Conversation messages={messages} />
+      <ChatInput onSendMessage={onSendMessage} />
     </div>
   );
 }

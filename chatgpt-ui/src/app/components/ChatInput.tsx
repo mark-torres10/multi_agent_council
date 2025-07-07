@@ -2,13 +2,17 @@
 
 import { useState, FormEvent } from "react";
 
-export default function ChatInput() {
+type ChatInputProps = {
+  onSendMessage: (input: string) => void;
+};
+
+export default function ChatInput({ onSendMessage }: ChatInputProps) {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-    console.log(input);
+    onSendMessage(input);
     setInput("");
   };
 
