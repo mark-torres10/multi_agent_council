@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import ChatArea from "@/app/components/ChatArea";
 
@@ -11,10 +11,12 @@ export type Message = {
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [chatHistory, setChatHistory] = useState<Message[][]>([]);
 
   const handleNewMessage = (input: string) => {
     const userMessage: Message = { role: "user", content: input };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
 
     // Stubbed AI response
     setTimeout(() => {
@@ -26,9 +28,16 @@ export default function Home() {
     }, 500);
   };
 
+  const handleNewChat = () => {
+    if (messages.length > 0) {
+      setChatHistory([messages, ...chatHistory]);
+    }
+    setMessages([]);
+  };
+
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      <Sidebar chatHistory={chatHistory} onNewChat={handleNewChat} />
       <ChatArea messages={messages} onSendMessage={handleNewMessage} />
     </div>
   );
